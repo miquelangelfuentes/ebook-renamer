@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Ebook Renamer
+Comment=Homogeneïtzador de noms d'arxius d'ebooks (Títol - Autor)
+Exec=python3 /usr/local/bin/ebook-renamer
+Terminal=false
+Type=Application
+Categories=Utility;Office;
+Keywords=ebook;renamer;epub;pdf;calibre;

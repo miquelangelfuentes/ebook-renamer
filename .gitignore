@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller builds
+build/
+dist/
+*.spec
+*.exe
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Logs & temporals
+*.log
+*.tmp
+*.tmp_renamer_*
+.ebook_renamer_last_log.json
