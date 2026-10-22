@@ -10,7 +10,7 @@ def build():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(current_dir)
 
-    print("=== Compilant Ebook Renamer per a Linux ===")
+    print("=== Compilant Ebook Renamer per a Linux amb icona i recursos ===")
     
     cmd = [
         sys.executable, "-m", "PyInstaller",
@@ -18,6 +18,7 @@ def build():
         "--clean",
         "--onefile",
         "--name", "ebook-renamer",
+        "--add-data", "assets:assets",
         "--collect-all", "customtkinter",
         "--collect-all", "pypdf",
         "main.py"

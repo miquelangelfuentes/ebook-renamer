@@ -1,18 +1,18 @@
 """
-Script per compilar Ebook Renamer a un executable autònom de Windows (.exe).
-Utilitza PyInstaller recollint totes les dependències necessàries (CustomTkinter, PyPDF).
+Script per compilar Ebook Renamer a un executable autònom de Windows (.exe) amb icona personalitzada.
 """
 
 import os
 import sys
 import subprocess
-import shutil
 
 def build():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(current_dir)
 
-    print("=== Iniciant la compilació d'Ebook Renamer (.exe) ===")
+    print("=== Iniciant la compilació d'Ebook Renamer (.exe) amb icona ===")
+    
+    icon_path = os.path.join(current_dir, "assets", "icon.ico")
     
     # Comanda PyInstaller
     cmd = [
@@ -20,8 +20,10 @@ def build():
         "--noconfirm",
         "--clean",
         "--onefile",
-        "--windowed", # No obre finestra de consola negra al darrere
+        "--windowed", # No obre consola negra
         "--name", "EbookRenamer",
+        "--icon", icon_path,
+        "--add-data", "assets;assets",
         "--collect-all", "customtkinter",
         "--collect-all", "pypdf",
         "main.py"

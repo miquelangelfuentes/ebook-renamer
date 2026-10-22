@@ -9,11 +9,18 @@ from typing import List, Optional
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import customtkinter as ctk
+from PIL import Image, ImageTk
 
 from renamer_engine import RenamerEngine, RenameItem
 
+def get_resource_path(relative_path: str) -> str:
+    """Retorna la ruta absoluta d'un recurs, funcionant tant en desenvolupament com compilat amb PyInstaller."""
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
+
 # Configuració visual de CustomTkinter
-ctk.set_appearance_mode("System")  # Segueix el mode clar/fosc de Windows
+ctk.set_appearance_mode("System")  # Segueix el mode clar/fosc de Windows/Linux
 ctk.set_default_color_theme("blue")
 
 class EbookRenamerApp(ctk.CTk):
@@ -23,6 +30,9 @@ class EbookRenamerApp(ctk.CTk):
         self.title("Ebook Renamer - Homogeneïtzador de Llibres")
         self.geometry("980x640")
         self.minsize(800, 500)
+
+        # Aplicar icona a la finestra
+        self._apply_app_icon()
 
         self.engine = RenamerEngine()
         self.current_plan: List[RenameItem] = []
@@ -34,17 +44,50 @@ class EbookRenamerApp(ctk.CTk):
             self.folder_var.set(initial_folder)
             self.start_preview()
 
+    def _apply_app_icon(self):
+        """Aplica la icona tant per a Windows (.ico) com per a Linux (.png)."""
+        ico_path = get_resource_path(os.path.join("assets", "icon.ico"))
+        png_path = get_resource_path(os.path.join("assets", "icon.png"))
+
+        if sys.platform.startswith("win") and os.path.exists(ico_path):
+            try:
+                self.iconbitmap(ico_path)
+            except Exception:
+                pass
+
+        if os.path.exists(png_path):
+            try:
+                pil_img = Image.open(png_path)
+                self._app_icon_tk = ImageTk.PhotoImage(pil_img)
+                self.iconphoto(False, self._app_icon_tk)
+            except Exception:
+                pass
+
     def _create_widgets(self):
         # 1. Capçalera
         header_frame = ctk.CTkFrame(self, corner_radius=10)
         header_frame.pack(fill="x", padx=16, pady=(16, 8))
 
+        # Fila de títol amb icona
+        title_row = ctk.CTkFrame(header_frame, fg_color="transparent")
+        title_row.pack(anchor="w", padx=16, pady=(10, 2))
+
+        png_path = get_resource_path(os.path.join("assets", "icon.png"))
+        if os.path.exists(png_path):
+            try:
+                pil_icon = Image.open(png_path).resize((36, 36), Image.Resampling.LANCZOS)
+                self.header_icon = ctk.CTkImage(light_image=pil_icon, dark_image=pil_icon, size=(36, 36))
+                icon_label = ctk.CTkLabel(title_row, image=self.header_icon, text="")
+                icon_label.pack(side="left", padx=(0, 10))
+            except Exception:
+                pass
+
         title_label = ctk.CTkLabel(
-            header_frame,
-            text="📚 Ebook Renamer",
+            title_row,
+            text="Ebook Renamer",
             font=ctk.CTkFont(size=22, weight="bold")
         )
-        title_label.pack(anchor="w", padx=16, pady=(10, 2))
+        title_label.pack(side="left")
 
         subtitle_label = ctk.CTkLabel(
             header_frame,
