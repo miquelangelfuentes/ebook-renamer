@@ -13,6 +13,14 @@ Nom del llibre - Autor (2).ext
 
 ---
 
+## 📥 Descarregar directament l'executable per a Windows
+
+No cal instal·lar Python ni cap dependència:
+* 👉 **[Descarregar EbookRenamer.exe (clic aquí)](https://github.com/miquelangelfuentes/ebook-renamer/raw/main/EbookRenamer.exe)**  
+  *(o pots descarregar-lo directament des de la llista d'arxius d'aquest repositori fent clic a `EbookRenamer.exe`)*
+
+---
+
 ## ✨ Característiques principals
 
 1. **Lectura directa de metadades internes**:
